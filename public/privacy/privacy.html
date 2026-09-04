@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kebijakan Privasi | Kairoo API</title>
+<link id="favicon" rel="icon" href="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/theme.css">
+<link rel="stylesheet" href="/theme.css">
+<link rel="stylesheet" href="/legal.css">
+</head>
+<body data-page="">
+
+<main class="k-container k-page k-page-narrow k-legal">
+    <h1 class="k-h1" style="font-size:28px;">Kebijakan Privasi</h1>
+    <p class="k-lead k-legal-updated">Halaman ini menjelaskan secara sederhana bagaimana Kairoo API menangani data. Ini bukan dokumen hukum formal.</p>
+
+    <h2 class="k-h2">Data yang Dikumpulkan</h2>
+    <p>Kairoo mencatat data teknis dari request API yang masuk: waktu, metode HTTP, path endpoint, kode status, dan waktu respons. IP pengguna diproses menjadi hash satu arah (bukan disimpan mentah) untuk keperluan statistik pengguna unik dan rate limiting.</p>
+
+    <h2 class="k-h2">Request Logs</h2>
+    <p>Log request terbaru ditampilkan di halaman Live Request Logs untuk transparansi performa API. Log ini tidak menampilkan API key, header Authorization, cookie, password, atau body request pengguna.</p>
+
+    <h2 class="k-h2">Penggunaan API</h2>
+    <p>Data statistik agregat (jumlah request, latency, error rate) digunakan untuk memantau kesehatan sistem dan meningkatkan performa layanan. Kairoo tidak menjual atau membagikan data request kepada pihak ketiga untuk tujuan iklan.</p>
+
+    <h2 class="k-h2">Keamanan</h2>
+    <p>Kredensial layanan (kunci API pihak ketiga, service role key database, token Redis) disimpan sebagai environment variable di server dan tidak pernah dikirim ke frontend atau ditampilkan di respons API.</p>
+
+    <h2 class="k-h2">Penyimpanan Data</h2>
+    <p>Log request individual disimpan sementara dan dibersihkan secara berkala. Data agregat harian (jumlah request, rata-rata response time) disimpan lebih lama untuk keperluan statistik historis.</p>
+
+    <h2 class="k-h2">Formulir Feedback</h2>
+    <p>Jika Anda mengisi nama atau email pada formulir Feedback, data tersebut bersifat opsional dan hanya digunakan untuk menindaklanjuti laporan Anda, bukan untuk keperluan pemasaran.</p>
+
+    <h2 class="k-h2">Hak Pengguna</h2>
+    <p>Karena Kairoo tidak mewajibkan akun/login untuk mengakses sebagian besar endpoint publik, sebagian besar interaksi bersifat anonim dari sisi identitas pribadi. Untuk pertanyaan terkait data yang Anda kirimkan lewat formulir Feedback, silakan hubungi kami melalui halaman Feedback.</p>
+</main>
+
+<script src="/kairoo-nav.js"></script>
+</body>
+</html>
