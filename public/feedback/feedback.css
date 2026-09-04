@@ -1,0 +1,19 @@
+.k-page-narrow{max-width:640px;}
+
+.k-field-row{display:flex;gap:14px;}
+.k-field-row .k-field{flex:1;}
+
+.k-optional{color:var(--muted);font-weight:400;}
+
+.k-form-result{
+    margin:14px 0 0;
+    font-size:13px;
+    min-height:18px;
+}
+
+.k-form-result.ok{color:var(--ok);}
+.k-form-result.err{color:var(--err);}
+
+@media (max-width:520px){
+    .k-field-row{flex-direction:column;}
+}
