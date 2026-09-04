@@ -36,7 +36,8 @@ import {
     monitorStatsHandler,
     monitorEndpointsHandler,
     monitorRecentHandler,
-    monitorResourcesHandler
+    monitorResourcesHandler,
+    monitorDebugHandler
 } from './src/routes/monitor';
 import { statusHealthHandler } from './src/routes/health';
 import { submitFeedbackHandler } from './src/routes/feedback';
@@ -215,6 +216,7 @@ app.get('/api/monitor/stats', monitorStatsHandler);
 app.get('/api/monitor/endpoints', monitorEndpointsHandler);
 app.get('/api/monitor/recent', monitorRecentHandler);
 app.get('/api/monitor/resources', monitorResourcesHandler);
+app.get('/api/monitor/debug', monitorDebugHandler);
 
 /*
  * Redesign Dark Minimal + Bento Grid (lihat prompt update redesign).
