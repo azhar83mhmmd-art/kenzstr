@@ -43,7 +43,8 @@
         resourcesBody: document.getElementById('resources-body'),
 
         btnRefresh: document.getElementById('btn-refresh'),
-        btnRetry: document.getElementById('btn-retry')
+        btnRetry: document.getElementById('btn-retry'),
+        offlineDetail: document.getElementById('offline-detail')
     };
 
     var chartHistory = [];
@@ -94,7 +95,7 @@
 
         if (data.status === 'offline') {
             setStatusBanner('offline', data.message || 'Monitor sedang offline.');
-            if (!hasLoadedOnce) showOffline(true);
+            if (!hasLoadedOnce) showOffline(true, data.detail);
             return;
         }
 
@@ -130,11 +131,19 @@
         }
     }
 
-    function showOffline(show) {
+    function showOffline(show, detail) {
         if (show) {
             els.skeleton.classList.add('hidden');
             els.content.classList.add('hidden');
             els.offline.classList.remove('hidden');
+            if (els.offlineDetail) {
+                if (detail) {
+                    els.offlineDetail.textContent = detail;
+                    els.offlineDetail.classList.remove('hidden');
+                } else {
+                    els.offlineDetail.classList.add('hidden');
+                }
+            }
         } else {
             els.offline.classList.add('hidden');
         }
@@ -146,7 +155,7 @@
             renderStats(data);
         } catch (e) {
             setStatusBanner('offline', 'Tidak dapat terhubung ke server.');
-            if (!hasLoadedOnce) showOffline(true);
+            if (!hasLoadedOnce) showOffline(true, e && e.message);
         }
     }
 
