@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Facebook Downloader",
+    "endpoint": "/api/download/facebook",
+    "filename": "facebook",
+    "method": "GET",
+    "params": [
+      {
+        "name": "url",
+        "required": true,
+        "description": "Facebook URL"
+      }
+    ]
+  },
+  {
+    "name": "AIO Downloader",
+    "endpoint": "/api/download/aio",
+    "filename": "aio",
+    "method": "GET",
+    "params": [
+      {
+        "name": "url",
+        "required": true,
+        "description": "URL media (saat ini: TikTok, tanpa watermark)"
+      }
+    ]
+  }
+]
