@@ -74,10 +74,18 @@ export async function monitorStatsHandler(req: Request, res: Response) {
             updatedAt: new Date().toISOString()
         });
     } catch (err: any) {
-        console.error('[Monitor] Gagal ambil snapshot:', err?.message || err);
+        const detail = err?.message || String(err);
+        console.error('[Monitor] Gagal ambil snapshot:', detail);
         return res.status(200).json({
             status: 'offline',
+            // "detail" berisi pesan error ASLI dari Supabase (mis. "Could not
+            // find the function get_monitor_snapshot" / "relation endpoints
+            // does not exist"). Ini bukan informasi rahasia (tidak ada
+            // credential/URL di dalamnya) — dikirim ke client supaya
+            // penyebab gagal langsung kelihatan tanpa harus buka Vercel
+            // Function Logs. Kalau bingung, cek juga GET /api/monitor/debug.
             message: 'Tidak dapat mengambil statistik saat ini. Coba lagi.',
+            detail,
             totalUsers: null,
             totalRequests: null,
             totalEndpoints: null,
@@ -126,8 +134,9 @@ export async function monitorEndpointsHandler(req: Request, res: Response) {
 
         return res.status(200).json({ status: 'online', result });
     } catch (err: any) {
-        console.error('[Monitor] Gagal ambil top endpoints:', err?.message || err);
-        return res.status(200).json({ status: 'offline', result: [] });
+        const detail = err?.message || String(err);
+        console.error('[Monitor] Gagal ambil top endpoints:', detail);
+        return res.status(200).json({ status: 'offline', result: [], detail });
     }
 }
 
@@ -159,9 +168,138 @@ export async function monitorRecentHandler(req: Request, res: Response) {
 
         return res.status(200).json({ status: 'online', result });
     } catch (err: any) {
-        console.error('[Monitor] Gagal ambil recent requests:', err?.message || err);
-        return res.status(200).json({ status: 'offline', result: [] });
+        const detail = err?.message || String(err);
+        console.error('[Monitor] Gagal ambil recent requests:', detail);
+        return res.status(200).json({ status: 'offline', result: [], detail });
     }
+}
+
+/*
+ * GET /api/monitor/debug
+ *
+ * Kenapa endpoint ini ada: kalau /api/monitor/stats gagal, penyebabnya
+ * bisa banyak (env var belum diisi/salah nama, schema.sql belum
+ * dijalankan penuh, RPC function belum ter-create, tabel belum ada,
+ * dsb) dan sebelumnya semua itu cuma kelihatan sebagai "offline" tanpa
+ * alasan. Endpoint ini menjalankan pengecekan satu-satu dan
+ * mengembalikan checklist yang jujur (bukan cuma true/false) supaya
+ * bisa langsung ketahuan langkah mana yang belum beres.
+ *
+ * Aman diakses publik: tidak pernah mengembalikan SUPABASE_URL, service
+ * role key, atau kredensial apa pun — hanya boolean + pesan error
+ * Postgres/PostgREST yang generik.
+ */
+export async function monitorDebugHandler(req: Request, res: Response) {
+    const checks: Array<{ name: string; ok: boolean; detail: string }> = [];
+
+    const supabaseUrl = process.env.SUPABASE_URL || '';
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+
+    checks.push({
+        name: 'ENV: SUPABASE_URL diset',
+        ok: Boolean(supabaseUrl),
+        detail: supabaseUrl
+            ? `Terisi (${supabaseUrl.replace(/^https:\/\//, '').split('.')[0]}.supabase.co)`
+            : 'KOSONG — isi SUPABASE_URL di Environment Variables (Vercel Project Settings > Environment Variables), lalu redeploy.'
+    });
+
+    checks.push({
+        name: 'ENV: SUPABASE_SERVICE_ROLE_KEY diset',
+        ok: Boolean(supabaseKey),
+        detail: supabaseKey
+            ? `Terisi (panjang ${supabaseKey.length} karakter)`
+            : 'KOSONG — isi SUPABASE_SERVICE_ROLE_KEY (bukan anon key!) dari Project Settings > API di Supabase, lalu redeploy.'
+    });
+
+    checks.push({
+        name: 'Supabase client berhasil dibuat',
+        ok: hasSupabase && Boolean(supabase),
+        detail: hasSupabase && supabase
+            ? 'OK'
+            : 'Client tidak terbentuk. Biasanya karena salah satu/kedua env var di atas kosong atau URL formatnya tidak valid (harus https://xxxx.supabase.co, bukan placeholder).'
+    });
+
+    if (!hasSupabase || !supabase) {
+        return res.status(200).json({
+            status: 'incomplete',
+            summary: 'Env var Supabase belum lengkap/valid — lengkapi dulu sebelum lanjut cek database.',
+            checks
+        });
+    }
+
+    // Cek tiap tabel inti (endpoints, api_requests, daily_stats) - kalau
+    // salah satu belum ada, artinya supabase/schema.sql belum (sepenuhnya)
+    // dijalankan di SQL Editor project ini.
+    const tablesToCheck = ['endpoints', 'api_requests', 'daily_stats', 'daily_unique_visitors'];
+    for (const table of tablesToCheck) {
+        try {
+            const { error } = await supabase.from(table).select('*', { count: 'exact', head: true });
+            if (error) throw error;
+            checks.push({ name: `Tabel "${table}" ada & bisa diakses`, ok: true, detail: 'OK' });
+        } catch (err: any) {
+            checks.push({
+                name: `Tabel "${table}" ada & bisa diakses`,
+                ok: false,
+                detail: (err?.message || String(err)) +
+                    ' — jalankan supabase/schema.sql lengkap di Supabase SQL Editor (Project > SQL Editor > New query).'
+            });
+        }
+    }
+
+    // Cek RPC get_monitor_snapshot (dipakai /api/monitor/stats)
+    try {
+        const { error } = await supabase.rpc('get_monitor_snapshot').single();
+        if (error) throw error;
+        checks.push({ name: 'Function get_monitor_snapshot() bisa dipanggil', ok: true, detail: 'OK' });
+    } catch (err: any) {
+        checks.push({
+            name: 'Function get_monitor_snapshot() bisa dipanggil',
+            ok: false,
+            detail: (err?.message || String(err)) +
+                ' — function ini belum ter-create atau errornya bukan karena tabel kosong. Jalankan ulang blok "create or replace function get_monitor_snapshot" dari supabase/schema.sql.'
+        });
+    }
+
+    // Cek RPC record_api_request (dipakai tracking middleware untuk setiap
+    // request API) TANPA benar-benar insert data — cukup pastikan function
+    // dikenali PostgREST lewat introspeksi ringan: panggil dengan payload
+    // valid ke endpoint dummy yang gampang dibedakan, karena PostgREST
+    // tidak punya cara "dry run". Ini SATU baris log dummy yang sengaja
+    // ditandai supaya bisa dibedakan dari trafik asli, bukan data sampah
+    // yang tersembunyi.
+    try {
+        const { error } = await supabase.rpc('record_api_request', {
+            p_endpoint: '__monitor_debug_check__',
+            p_method: 'DEBUG',
+            p_status_code: 200,
+            p_response_time: 0,
+            p_ip_hash: null,
+            p_user_agent: 'monitor-debug-selfcheck'
+        });
+        if (error) throw error;
+        checks.push({
+            name: 'Function record_api_request() bisa dipanggil',
+            ok: true,
+            detail: 'OK (1 baris log dummy "__monitor_debug_check__" ditulis untuk tes ini, aman diabaikan/dihapus manual).'
+        });
+    } catch (err: any) {
+        checks.push({
+            name: 'Function record_api_request() bisa dipanggil',
+            ok: false,
+            detail: (err?.message || String(err)) +
+                ' — function ini belum ter-create. Jalankan ulang blok "create or replace function record_api_request" dari supabase/schema.sql.'
+        });
+    }
+
+    const allOk = checks.every((c) => c.ok);
+
+    return res.status(200).json({
+        status: allOk ? 'healthy' : 'broken',
+        summary: allOk
+            ? 'Semua pengecekan lolos — Server Monitor seharusnya sudah berfungsi. Kalau /monitor masih kosong, tunggu beberapa detik lalu refresh (data baru muncul setelah ada request masuk).'
+            : 'Ada pengecekan yang gagal (ok: false) — perbaiki sesuai "detail" pada item tersebut, lalu buka /api/monitor/debug lagi untuk verifikasi.',
+        checks
+    });
 }
 
 export async function monitorResourcesHandler(req: Request, res: Response) {
