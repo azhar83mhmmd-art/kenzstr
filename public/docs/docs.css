@@ -1,0 +1,167 @@
+/*
+ * Kairoo API — Dokumentasi API (redesign Dark Minimal)
+ *
+ * PENTING: semua nama class di bawah ini SENGAJA dibuat identik dengan
+ * versi lama (.clay-card, .clay-btn, .folder-btn, .method-badge, dst)
+ * karena docs.js (1367 baris) memakai nama-nama ini lewat
+ * getElementById/querySelector dan template string. Yang berubah HANYA
+ * definisi visualnya - dari Neo Brutalism (border tebal + hard shadow +
+ * warna cerah) menjadi Dark Minimal sesuai palet /theme.css.
+ */
+
+:root{
+    --nb-bg:#0A0A0A;
+    --nb-ink:#F5F5F5;
+    --nb-primary:#8B5CF6;
+    --nb-yellow:#F5B942;
+    --nb-pink:#F0555F;
+    --nb-green:#3DDC84;
+    --nb-blue:#5FB4F0;
+    --nb-red:#F0555F;
+    --nb-orange:#F5B942;
+    --nb-border:1px solid #222222;
+    --nb-shadow-sm:none;
+    --nb-shadow:none;
+    --nb-shadow-lg:none;
+}
+
+html,body{overflow-x:hidden;width:100%;margin:0}
+*{font-family:'Inter','Nunito',sans-serif;box-sizing:border-box}
+.font-mono{font-family:'JetBrains Mono',monospace}
+
+body{
+    background:var(--nb-bg);
+    background-image:none;
+    color:var(--nb-ink);
+}
+
+/* blob dekoratif dihapus dari tampilan - prompt melarang gradient/neon
+   berlebihan, jadi cukup disembunyikan tanpa mengubah markup/JS */
+.blob{display:none;}
+
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#222222;border:none;border-radius:8px}
+::-webkit-scrollbar-thumb:hover{background:#2c2c2c}
+
+/* ===== Cards / surfaces ===== */
+.clay-card{background:#111111;border-radius:12px;border:var(--nb-border);box-shadow:none}
+
+.clay-btn{--c:var(--nb-primary);position:relative;border:1px solid transparent;cursor:pointer;font-weight:700;color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--c);box-shadow:none;transition:background .15s ease,transform .12s ease;-webkit-tap-highlight-color:transparent;user-select:none}
+.clay-btn:hover{transform:none;background:#7c4cf0;box-shadow:none}
+.clay-btn:active{transform:scale(.97);box-shadow:none}
+.clay-btn.purple{--c:#151515;color:var(--nb-ink);border-color:#222222}
+
+.clay-icon-btn{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;background:#111111;border:var(--nb-border);box-shadow:none;transition:background .15s ease,border-color .15s ease;cursor:pointer;-webkit-tap-highlight-color:transparent;color:var(--nb-ink)}
+.clay-icon-btn:hover{transform:none;box-shadow:none;background:#181818;border-color:#333}
+.clay-icon-btn:active{transform:none;box-shadow:none}
+
+.clay-input{width:100%;border:var(--nb-border);border-radius:8px;padding:11px 16px;font-size:13px;font-weight:500;color:var(--nb-ink);background:#151515;box-shadow:none;outline:none;transition:border-color .15s ease}
+.clay-input::placeholder{color:#5F5F5F}
+.clay-input:focus{box-shadow:none;border-color:rgba(139,92,246,.5)}
+
+.ep-card{background:#111111;border-radius:12px;overflow:hidden;border:var(--nb-border);box-shadow:none}
+
+.method-badge{display:inline-flex;align-items:center;justify-content:center;min-width:56px;padding:4px 9px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.04em;color:#0A0A0A;border:none;box-shadow:none;background:var(--c);font-family:'JetBrains Mono',monospace}
+.method-badge.get{--c:#5FB4F0}
+.method-badge.post{--c:#3DDC84}
+.method-badge.delete{--c:#F0555F;color:#fff}
+.method-badge.other{--c:#F5B942}
+
+.clay-console{background:#111111;border-radius:12px;padding:0;border:var(--nb-border);box-shadow:none}
+.clay-console-screen{background:#0D0D0D;border-radius:11px;border:none}
+
+.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;border:none}
+.status-waiting{background:var(--nb-yellow);animation:blink 1.4s infinite}
+.status-success{background:var(--nb-green)}
+.status-error{background:var(--nb-red)}
+
+@keyframes blink{50%{opacity:.3}}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .4s ease,transform .4s cubic-bezier(.4,0,.2,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+.rotate-180{transform:rotate(180deg)}
+
+.json-key{color:#C4B5FD;font-weight:700}
+.json-string{color:#5EEAD4}
+.json-number{color:#8DD8FF;font-weight:700}
+.json-boolean{color:var(--nb-yellow);font-weight:700}
+.json-null{color:#5F5F5F;font-style:italic}
+.blink-cursor{animation:blink 1s step-end infinite}
+
+/* ===== Header ===== */
+.site-header{position:sticky;top:0;z-index:60;background:rgba(10,10,10,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:var(--nb-border)}
+
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:70}
+.sidebar-overlay.show{opacity:1;pointer-events:auto}
+
+.sidebar{position:fixed;top:0;left:0;height:100%;width:86%;max-width:340px;background:#0A0A0A;z-index:80;display:flex;flex-direction:column;padding:20px 18px;border-right:var(--nb-border);transform:translateX(-105%);transition:transform .25s cubic-bezier(.4,0,.2,1);box-shadow:none}
+.sidebar.open{transform:translateX(0)}
+
+.folder-btn{width:100%;background:#111111;border:var(--nb-border);border-radius:8px;padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;box-shadow:none;transition:border-color .12s ease,background .12s ease}
+.folder-btn:hover{transform:none;box-shadow:none;border-color:#333}
+.folder-btn:active{transform:none;box-shadow:none}
+.folder-btn.intro-nav-btn{margin-bottom:2px}
+.folder-btn.intro-nav-btn.active{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.35)}
+
+.folder-icon{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;background:var(--nb-primary);border:none;flex-shrink:0}
+.folder-title{flex:1;text-align:left;font-weight:700;font-size:13px;color:var(--nb-ink)}
+.folder-count{font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;background:#151515;color:#8A8A8A;border:1px solid #222222}
+.folder-arrow{font-size:11px;color:#5F5F5F;transition:transform .2s ease}
+
+.folder-files{display:flex;flex-direction:column;gap:6px;padding:8px 0 4px 14px;border-left:2px solid #222222;margin:6px 0 2px 16px}
+
+.file-item{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:8px;border:1px solid transparent;background:transparent;cursor:pointer;text-align:left;width:100%;transition:background .12s ease,border-color .12s ease}
+.file-item:hover{background:#151515;border-color:#222222}
+.file-item.active{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.35)}
+.file-item .mini-badge{font-size:8.5px;font-weight:700;padding:2px 6px;border-radius:5px;color:#0A0A0A;border:none;flex-shrink:0;min-width:36px;text-align:center;font-family:'JetBrains Mono',monospace}
+.file-item .mini-badge.get{background:#5FB4F0}
+.file-item .mini-badge.post{background:#3DDC84}
+.file-item .mini-badge.delete{background:#F0555F;color:#fff}
+.file-item .mini-badge.other{background:#F5B942}
+.file-item .file-name{font-size:11.5px;font-weight:600;color:var(--nb-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.back-btn{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:#fff;background:var(--nb-primary);padding:9px 14px;border-radius:8px;border:none;box-shadow:none;cursor:pointer;transition:background .15s ease}
+.back-btn:hover{transform:none;background:#7c4cf0;box-shadow:none}
+.back-btn:active{transform:none;box-shadow:none}
+
+.intro-icon{width:52px;height:52px;border-radius:12px;background:var(--nb-primary);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;border:none;box-shadow:none}
+
+.intro-code{background:#0D0D0D;border:1px solid #222222;border-radius:10px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#5EEAD4;overflow-x:auto;white-space:pre;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;max-width:100%}
+
+.lang-tabs{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;padding-bottom:4px;margin-bottom:10px;scrollbar-width:none}
+.lang-tabs::-webkit-scrollbar{display:none}
+.lang-tab{flex-shrink:0;white-space:nowrap;font-size:11px;font-weight:700;padding:8px 14px;border-radius:7px;border:1px solid #222222;cursor:pointer;background:#111111;color:#8A8A8A}
+.lang-tab.active{background:var(--nb-primary);color:#fff;border-color:var(--nb-primary)}
+
+#intro-view,#endpoint-view{min-width:0}
+
+.resp-examples{display:flex;flex-direction:column;gap:12px;margin-top:22px}
+.resp-card{border-radius:10px;padding:14px 16px;background:#111111;border:1px solid #222222;box-shadow:none}
+.resp-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.resp-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:6px;letter-spacing:.3px;border:none;font-family:'JetBrains Mono',monospace}
+.resp-badge.ok{background:rgba(61,220,132,.15);color:#3DDC84}
+.resp-badge.err{background:rgba(240,85,95,.15);color:#F0555F}
+.resp-badge.limit{background:rgba(245,185,66,.15);color:#F5B942}
+.resp-label{font-size:12px;font-weight:700;color:var(--nb-ink)}
+.resp-code{background:#0D0D0D;border:1px solid #222222;border-radius:9px;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#5EEAD4;overflow-x:auto;white-space:pre;-webkit-overflow-scrolling:touch;max-width:100%}
+
+.status-table{width:100%;border-collapse:collapse;margin-top:22px;font-family:'JetBrains Mono',monospace}
+.status-table th{text-align:left;font-size:10px;font-weight:700;color:#8A8A8A;text-transform:uppercase;letter-spacing:.4px;padding:8px 10px;border-bottom:1px solid #222222}
+.status-table td{padding:10px;font-size:12px;font-weight:500;color:#F5F5F5;border-bottom:1px solid #1A1A1A;vertical-align:top}
+.status-code{font-weight:700;padding:3px 9px;border-radius:6px;font-size:11px;display:inline-block;border:none}
+.status-code.c2xx{background:rgba(61,220,132,.15);color:#3DDC84}
+.status-code.c4xx{background:rgba(240,85,95,.15);color:#F0555F}
+.status-code.c429{background:rgba(245,185,66,.15);color:#F5B942}
+.status-code.c5xx{background:rgba(95,180,240,.15);color:#5FB4F0}
+
+/* ===== Responsive ===== */
+@media (max-width:1023px){
+    .sidebar{max-width:320px}
+}
+@media (max-width:480px){
+    .clay-icon-btn{width:38px;height:38px}
+    .clay-card{border-radius:10px}
+    .intro-icon{width:44px;height:44px;font-size:17px}
+    .clay-console-screen{border-radius:8px}
+}
