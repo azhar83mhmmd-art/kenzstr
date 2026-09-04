@@ -1,0 +1,120 @@
+[
+  {
+    "name": "Kuroneko Chat",
+    "endpoint": "/api/ai/kuroneko",
+    "filename": "kuroneko",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Question"
+      },
+      {
+        "name": "session",
+        "required": false,
+        "description": "Session ID"
+      }
+    ]
+  },
+  {
+    "name": "AsyntAI Chat",
+    "endpoint": "/api/ai/asyntai",
+    "filename": "asyntai",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Pertanyaan"
+      },
+      {
+        "name": "session",
+        "required": false,
+        "description": "Session ID untuk melanjutkan percakapan"
+      }
+    ]
+  },
+  {
+    "name": "QuillBot Chat",
+    "endpoint": "/api/ai/quillbot",
+    "filename": "quillbot",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Pertanyaan"
+      },
+      {
+        "name": "session",
+        "required": false,
+        "description": "Session ID (base64) untuk melanjutkan percakapan"
+      }
+    ]
+  },
+  {
+    "name": "QuillBot Text to Image",
+    "endpoint": "/api/ai/qb-text2img",
+    "filename": "qb-text2img",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Prompt gambar"
+      },
+      {
+        "name": "ratio",
+        "required": false,
+        "description": "Aspect ratio, default 1:1"
+      }
+    ]
+  },
+  {
+    "name": "Google Translate",
+    "endpoint": "/api/ai/gtranslate",
+    "filename": "gtranslate",
+    "method": "GET",
+    "params": [
+      {
+        "name": "text",
+        "required": true,
+        "description": "Teks yang ingin diterjemahkan"
+      },
+      {
+        "name": "from",
+        "required": false,
+        "description": "Kode bahasa asal, default auto"
+      },
+      {
+        "name": "to",
+        "required": false,
+        "description": "Kode bahasa tujuan, default id"
+      },
+      {
+        "name": "mode",
+        "required": false,
+        "description": "'text' atau 'audio' (text-to-speech), default text"
+      }
+    ]
+  },
+  {
+    "name": "OCR (Image/Struk to Text)",
+    "endpoint": "/api/ai/ocr",
+    "filename": "ocr",
+    "method": "GET",
+    "params": [
+      {
+        "name": "url",
+        "required": true,
+        "description": "Link gambar/dokumen yang ingin di-OCR"
+      },
+      {
+        "name": "lang",
+        "required": false,
+        "description": "Kode bahasa OCR, default eng"
+      }
+    ]
+  }
+]
