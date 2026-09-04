@@ -2,8 +2,29 @@ import { Request, Response } from 'express';
 import axios from 'axios';
 import { wrapper } from 'axios-cookiejar-support';
 import { CookieJar } from 'tough-cookie';
-// @ts-ignore - tidak menyertakan type declaration lengkap
-import mql from '@microlink/mql';
+/*
+ * PENTING (bug FUNCTION_INVOCATION_FAILED / ERR_REQUIRE_ESM di SEMUA
+ * route, bukan cuma /api/tools/screenshot):
+ * @microlink/mql (lewat dependency 'ky') sekarang di-publish sebagai
+ * ESM-only package. require('@microlink/mql') di top-level file ini
+ * dulu langsung throw ERR_REQUIRE_ESM saat cold start — karena file
+ * ini di-import statis lewat autoload/router chain, exception itu
+ * terjadi SEBELUM Express app selesai dibuat, sehingga API "/",
+ * "/monitor", dst semuanya ikut crash meski tidak berkaitan dengan
+ * screenshot sama sekali.
+ *
+ * Fix: JANGAN import 'mql' secara statis. import() dinamis TIDAK
+ * mengalami masalah ini (dynamic import bisa memuat ESM dari modul
+ * CommonJS), dan modul ESM ini baru dimuat kalau providernya benar-
+ * benar dipanggil (fallback provider ke-3), bukan saat cold start.
+ */
+let mqlModulePromise: Promise<any> | null = null;
+function loadMql() {
+    if (!mqlModulePromise) {
+        mqlModulePromise = import('@microlink/mql').then((mod: any) => mod.default || mod);
+    }
+    return mqlModulePromise;
+}
 
 const UA = 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Mobile Safari/537.36';
 
@@ -92,6 +113,7 @@ async function tryMicrolink(url: string): Promise<string | null> {
         meta: false
     };
 
+    const mql = await loadMql();
     const result: any = await mql(url, options);
 
     return result?.data?.screenshot?.url || null;
