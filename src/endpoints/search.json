@@ -1,0 +1,214 @@
+[
+  {
+    "name": "Youtube Search",
+    "endpoint": "/api/search/yts",
+    "filename": "yts",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Query"
+      }
+    ]
+  },
+  {
+    "name": "Pinterest Search",
+    "endpoint": "/api/search/pinterest",
+    "filename": "pinterest",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Query"
+      }
+    ]
+  },
+  {
+    "name": "Pinterest Video Search",
+    "endpoint": "/api/search/pinvid",
+    "filename": "pinvid",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Query"
+      }
+    ]
+  },
+  {
+    "name": "GitHub Repository Search",
+    "endpoint": "/api/search/github",
+    "filename": "github",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Query"
+      }
+    ]
+  },
+  {
+    "name": "NPM Package Search",
+    "endpoint": "/api/search/npm",
+    "filename": "npm",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Query"
+      }
+    ]
+  },
+  {
+    "name": "Tokopedia Product Search",
+    "endpoint": "/api/search/tokopedia",
+    "filename": "tokopedia",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Query"
+      },
+      {
+        "name": "limit",
+        "required": false,
+        "description": "Jumlah hasil (default 10, maks 20)"
+      }
+    ]
+  },
+  {
+    "name": "Shinigami Manga Search",
+    "endpoint": "/api/search/shinigami",
+    "filename": "shinigami",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Query"
+      },
+      {
+        "name": "limit",
+        "required": false,
+        "description": "Jumlah hasil (default 10, maks 20)"
+      }
+    ]
+  },
+  {
+    "name": "MCPEDL Addon Search",
+    "endpoint": "/api/search/mcpedl",
+    "filename": "mcpedl",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Query"
+      },
+      {
+        "name": "limit",
+        "required": false,
+        "description": "Jumlah hasil (default 10, maks 20)"
+      }
+    ]
+  },
+  {
+    "name": "Wikipedia Search",
+    "endpoint": "/api/search/wikipedia",
+    "filename": "wikipedia",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Query"
+      }
+    ]
+  },
+  {
+    "name": "TikTok Photo Search",
+    "endpoint": "/api/search/ttphoto",
+    "filename": "ttphoto",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Query"
+      },
+      {
+        "name": "limit",
+        "required": false,
+        "description": "Jumlah hasil (default 10, maks 20)"
+      }
+    ]
+  },
+  {
+    "name": "TikTok Video Search",
+    "endpoint": "/api/search/ttvideo",
+    "filename": "ttvideo",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Query"
+      },
+      {
+        "name": "limit",
+        "required": false,
+        "description": "Jumlah hasil (default 10, maks 20)"
+      }
+    ]
+  },
+  {
+    "name": "AZLyrics Search",
+    "endpoint": "/api/search/azlyrics",
+    "filename": "azlyrics",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Judul lagu / artis"
+      }
+    ]
+  },
+  {
+    "name": "Device Comparison",
+    "endpoint": "/api/search/devicecompare",
+    "filename": "devicecompare",
+    "method": "GET",
+    "params": [
+      {
+        "name": "hp1",
+        "required": true,
+        "description": "Nama HP pertama"
+      },
+      {
+        "name": "hp2",
+        "required": true,
+        "description": "Nama HP kedua"
+      }
+    ]
+  },
+  {
+    "name": "Phone Specs",
+    "endpoint": "/api/search/phonespecs",
+    "filename": "phonespecs",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Nama HP"
+      }
+    ]
+  }
+]
