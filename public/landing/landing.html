@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kairoo API | Beranda</title>
+<meta name="description" content="Kairoo API — API Platform untuk aplikasi modern.">
+<link id="favicon" rel="icon" href="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/theme.css">
+<link rel="stylesheet" href="/landing/landing.css">
+</head>
+<body class="antialiased" data-page="home">
+
+<main>
+<div id="loader" class="k-loader">
+    <div class="k-loader-dot"></div>
+</div>
+
+<div id="content" class="hidden">
+
+<section class="k-hero k-container">
+    <div class="k-hero-badge">
+        <span class="k-brand-dot"></span>
+        <span id="hero-tagline">API Platform untuk aplikasi modern</span>
+    </div>
+    <h1 class="k-h1"><span id="dash-title">KAIROO API</span></h1>
+    <p id="dash-desc" class="k-lead k-hero-desc"></p>
+
+    <div class="k-hero-cta">
+        <a href="/docs" class="k-btn k-btn-primary">
+            Explore API
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="/docs" class="k-btn k-btn-ghost">Dokumentasi</a>
+    </div>
+
+    <div id="api-status" class="k-badge">
+        <span class="k-dot"></span>
+        <span id="api-status-text">Memeriksa status API...</span>
+    </div>
+</section>
+
+<section class="k-container k-page-tight">
+    <div class="k-bento">
+        <div class="k-card">
+            <span class="k-stat-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+                API Requests
+            </span>
+            <div id="stat-total-requests" class="k-stat-value accent">—</div>
+            <div class="k-stat-sub">total tercatat</div>
+        </div>
+        <div class="k-card">
+            <span class="k-stat-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5.5C4 4.67 4.67 4 5.5 4H12v16H5.5A1.5 1.5 0 014 18.5v-13zM20 5.5c0-.83-.67-1.5-1.5-1.5H12v16h6.5a1.5 1.5 0 001.5-1.5v-13z"/></svg>
+                Active Endpoints
+            </span>
+            <div id="stat-active-endpoints" class="k-stat-value">—</div>
+            <div class="k-stat-sub">dari registry</div>
+        </div>
+        <div class="k-card">
+            <span class="k-stat-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+                Response Time
+            </span>
+            <div id="stat-response-time" class="k-stat-value ok">—</div>
+            <div class="k-stat-sub">rata-rata 15 menit</div>
+        </div>
+        <div class="k-card">
+            <span class="k-stat-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                Uptime
+            </span>
+            <div id="stat-uptime" class="k-stat-value">—</div>
+            <div class="k-stat-sub">proses berjalan</div>
+        </div>
+    </div>
+</section>
+
+<section class="k-container k-page-tight">
+    <div class="k-terminal">
+        <div class="k-terminal-bar">
+            <span class="k-terminal-dot"></span><span class="k-terminal-dot"></span><span class="k-terminal-dot"></span>
+            <span class="k-terminal-title">status.sh</span>
+        </div>
+        <div class="k-terminal-body">
+            <div class="k-terminal-row"><span class="k-terminal-prompt">$</span><span class="v">kairoo status</span></div>
+            <div class="k-terminal-row"><span class="k"> api</span><span id="term-api" class="v">checking...</span></div>
+            <div class="k-terminal-row"><span class="k"> version</span><span id="info-version" class="v">—</span></div>
+            <div class="k-terminal-row"><span class="k"> environment</span><span id="info-environment" class="v">—</span></div>
+            <div class="k-terminal-row"><span class="k"> runtime</span><span id="info-runtime" class="v">—</span></div>
+            <div class="k-terminal-row"><span class="k"> started</span><span id="info-started" class="v">—</span></div>
+            <div class="k-terminal-row" style="display:none"><span class="k"></span><span id="info-status" class="v"></span></div>
+        </div>
+    </div>
+</section>
+
+<section class="k-container k-page-tight">
+    <h2 class="k-h2">Quick Access</h2>
+    <div class="k-bento k-bento-quick">
+        <a href="/docs" class="k-card k-quick">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C4 4.67 4.67 4 5.5 4H12v16H5.5A1.5 1.5 0 014 18.5v-13zM20 5.5c0-.83-.67-1.5-1.5-1.5H12v16h6.5a1.5 1.5 0 001.5-1.5v-13z"/></svg>
+            <span>Documentation</span>
+        </a>
+        <a href="/logs" class="k-card k-quick">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+            <span>Live Logs</span>
+        </a>
+        <a href="/status" class="k-card k-quick">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 15l3-4 3 3 5-7"/></svg>
+            <span>Server Status</span>
+        </a>
+        <a href="/feedback" class="k-card k-quick">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+            <span>Feedback</span>
+        </a>
+    </div>
+</section>
+
+<section class="k-container k-page-tight">
+    <h2 class="k-h2">Tentang Kairoo</h2>
+    <div class="k-card">
+        <p id="about-text" class="k-lead" style="margin:0;"></p>
+    </div>
+</section>
+
+</div>
+</main>
+
+<div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+
+<script src="/kairoo-nav.js"></script>
+<script src="/landing/landing.js"></script>
+</body>
+</html>
