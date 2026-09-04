@@ -1,0 +1,7 @@
+.k-logs-toolbar{
+    display:flex;flex-wrap:wrap;gap:12px;
+    align-items:center;justify-content:space-between;
+    margin-bottom:14px;
+}
+
+.k-logs-search{max-width:280px;}
