@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pusat Feedback & Laporan | Kairoo API</title>
+<meta name="description" content="Kirim laporan bug, permintaan fitur, atau feedback untuk Kairoo API.">
+<link id="favicon" rel="icon" href="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/theme.css">
+<link rel="stylesheet" href="/feedback/feedback.css">
+</head>
+<body data-page="feedback">
+
+<main class="k-container k-page k-page-narrow">
+    <h1 class="k-h1" style="font-size:28px;">Pusat Feedback & Laporan</h1>
+    <p class="k-lead" style="margin-bottom:26px;">Laporkan bug, ajukan fitur baru, atau berikan masukan untuk Kairoo API.</p>
+
+    <form id="feedback-form" class="k-card">
+        <div class="k-field">
+            <label class="k-label" for="fb-category">Kategori</label>
+            <select id="fb-category" class="k-select" required>
+                <option value="">Pilih kategori</option>
+                <option value="bug">Bug</option>
+                <option value="feature_request">Feature Request</option>
+                <option value="endpoint_request">Endpoint Request</option>
+                <option value="general">General Feedback</option>
+            </select>
+        </div>
+
+        <div class="k-field">
+            <label class="k-label" for="fb-message">Pesan</label>
+            <textarea id="fb-message" class="k-textarea" required minlength="5" maxlength="2000" placeholder="Jelaskan laporan atau masukan Anda..."></textarea>
+        </div>
+
+        <div class="k-field-row">
+            <div class="k-field">
+                <label class="k-label" for="fb-name">Nama <span class="k-optional">(opsional)</span></label>
+                <input id="fb-name" type="text" class="k-input" maxlength="100" placeholder="Nama Anda">
+            </div>
+            <div class="k-field">
+                <label class="k-label" for="fb-email">Email <span class="k-optional">(opsional)</span></label>
+                <input id="fb-email" type="email" class="k-input" maxlength="200" placeholder="email@contoh.com">
+            </div>
+        </div>
+
+        <button type="submit" id="fb-submit" class="k-btn k-btn-primary" style="width:100%;">Kirim Feedback</button>
+
+        <p id="fb-result" class="k-form-result"></p>
+    </form>
+</main>
+
+<script src="/kairoo-nav.js"></script>
+<script src="/feedback/feedback.js"></script>
+</body>
+</html>
