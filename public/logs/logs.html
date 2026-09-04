@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Request Logs | Kairoo API</title>
+<meta name="description" content="Log request API Kairoo secara real-time.">
+<link id="favicon" rel="icon" href="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/theme.css">
+<link rel="stylesheet" href="/logs/logs.css">
+</head>
+<body data-page="logs">
+
+<main class="k-container k-page">
+    <div class="k-page-head">
+        <div>
+            <h1 class="k-h1" style="font-size:28px;">Live Request Logs</h1>
+            <p class="k-lead">100 request terbaru yang tercatat backend. Tidak ada API key, token, atau data pribadi ditampilkan.</p>
+        </div>
+        <div id="live-badge" class="k-badge">
+            <span class="k-dot"></span>
+            <span id="live-badge-text">Menghubungkan...</span>
+        </div>
+    </div>
+
+    <div class="k-logs-toolbar">
+        <input id="log-search" type="text" class="k-input k-logs-search" placeholder="Filter berdasarkan endpoint...">
+        <span id="log-updated" class="k-stat-sub">&nbsp;</span>
+    </div>
+
+    <div class="k-table-wrap">
+        <table class="k-table">
+            <thead>
+                <tr><th>Time</th><th>Method</th><th>Endpoint</th><th>Status</th><th>Latency</th></tr>
+            </thead>
+            <tbody id="logs-tbody">
+                <tr><td colspan="5"><div class="k-state"><span class="k-state-title">Memuat log...</span></div></td></tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<script src="/kairoo-nav.js"></script>
+<script src="/logs/logs.js"></script>
+</body>
+</html>
