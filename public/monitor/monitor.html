@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Server Monitor | Kairoo API</title>
+<meta name="description" content="Kairoo API — Pantau performa API secara real-time.">
+<link id="favicon" rel="icon" href="">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/theme.css">
+<link rel="stylesheet" href="/monitor/monitor.css">
+</head>
+<body class="antialiased" data-page="status">
+
+<div id="app">
+
+<main class="main-content monitor-main">
+<div class="monitor-wrap">
+
+<div class="monitor-hero reveal">
+<div class="monitor-hero-top">
+<div>
+<h1 class="monitor-title">SERVER <span class="text-accent">MONITOR</span></h1>
+<p class="monitor-subtitle">Pantau performa API secara real-time.</p>
+</div>
+<div id="live-badge" class="live-badge">
+<span class="live-dot"></span>
+<span id="live-badge-text">LIVE</span>
+</div>
+<button id="btn-refresh" class="icon-btn" aria-label="Refresh sekarang" type="button">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 12a9 9 0 11-3-6.7M21 4v5h-5"/></svg>
+</button>
+</div>
+<div id="status-banner" class="status-banner status-banner-loading">
+<span id="status-dot" class="status-dot"></span>
+<span id="status-text">Menghubungkan ke monitor...</span>
+</div>
+</div>
+
+<div id="skeleton-grid" class="stat-grid">
+<div class="stat-card skel"><div class="clay-shimmer skel-label"></div><div class="clay-shimmer skel-value"></div></div>
+<div class="stat-card skel"><div class="clay-shimmer skel-label"></div><div class="clay-shimmer skel-value"></div></div>
+<div class="stat-card skel"><div class="clay-shimmer skel-label"></div><div class="clay-shimmer skel-value"></div></div>
+<div class="stat-card skel"><div class="clay-shimmer skel-label"></div><div class="clay-shimmer skel-value"></div></div>
+</div>
+
+<div id="monitor-content" class="hidden">
+
+<div class="stat-grid reveal">
+<div class="stat-card">
+<span class="stat-label">TOTAL USERS</span>
+<span id="stat-users" class="stat-value">—</span>
+</div>
+<div class="stat-card accent-blue">
+<span class="stat-label">TOTAL REQUESTS</span>
+<span id="stat-requests" class="stat-value">—</span>
+</div>
+<div class="stat-card accent-green">
+<span class="stat-label">TOTAL ENDPOINTS</span>
+<span id="stat-endpoints" class="stat-value">—</span>
+</div>
+<div class="stat-card accent-pink">
+<span class="stat-label">ACTIVE REQUESTS</span>
+<span id="stat-active" class="stat-value">—</span>
+</div>
+</div>
+
+<div class="stat-grid stat-grid-secondary reveal">
+<div class="stat-card-sm">
+<span class="stat-label-sm">AVG RESPONSE</span>
+<span id="stat-avgresponse" class="stat-value-sm">— ms</span>
+</div>
+<div class="stat-card-sm">
+<span class="stat-label-sm">SUCCESS RATE</span>
+<span id="stat-success" class="stat-value-sm ok">—%</span>
+</div>
+<div class="stat-card-sm">
+<span class="stat-label-sm">ERROR RATE</span>
+<span id="stat-error" class="stat-value-sm err">—%</span>
+</div>
+<div class="stat-card-sm">
+<span class="stat-label-sm">REQUESTS TODAY</span>
+<span id="stat-today" class="stat-value-sm">—</span>
+</div>
+</div>
+
+<section class="panel reveal">
+<div class="panel-head">
+<h2>Request Rate</h2>
+<span id="rps-total-label" class="panel-caption">— total</span>
+</div>
+<div class="rps-grid">
+<div class="rps-card"><span id="rps-5s" class="rps-value">0.00</span><span class="rps-label">RPS (5S)</span></div>
+<div class="rps-card"><span id="rps-15s" class="rps-value">0.00</span><span class="rps-label">RPS (15S)</span></div>
+<div class="rps-card"><span id="rps-60s" class="rps-value">0.00</span><span class="rps-label">RPS (60S)</span></div>
+</div>
+<canvas id="rps-chart" class="rps-chart" height="120" aria-label="Grafik request per detik"></canvas>
+</section>
+
+<section class="panel reveal">
+<div class="panel-head">
+<h2>Top Endpoints</h2>
+<input id="endpoint-search" type="text" placeholder="Cari endpoint..." class="panel-search">
+</div>
+<div class="table-wrap">
+<table class="nb-table">
+<thead>
+<tr><th>Endpoint</th><th>Method</th><th>Requests</th><th>Success</th><th>Error</th><th>Avg</th></tr>
+</thead>
+<tbody id="endpoints-tbody">
+<tr><td colspan="6" class="table-empty">Memuat data...</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section class="panel reveal">
+<div class="panel-head">
+<h2>Recent Requests</h2>
+</div>
+<div class="table-wrap">
+<table class="nb-table">
+<thead>
+<tr><th>Time</th><th>Method</th><th>Endpoint</th><th>Status</th><th>Response</th></tr>
+</thead>
+<tbody id="recent-tbody">
+<tr><td colspan="5" class="table-empty">Memuat data...</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section class="panel reveal">
+<div class="panel-head">
+<h2>Server Resources</h2>
+</div>
+<div id="resources-body" class="resources-body">
+<p class="table-empty">Memuat data...</p>
+</div>
+</section>
+
+</div>
+
+<div id="offline-state" class="offline-state hidden">
+<div class="offline-card">
+<h2>MONITOR OFFLINE</h2>
+<p>Tidak dapat mengambil statistik.</p>
+<button id="btn-retry" class="wa-btn wa-btn-secondary">COBA LAGI</button>
+</div>
+</div>
+
+</div>
+</main>
+
+</div>
+
+<div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+
+<script src="/kairoo-nav.js"></script>
+<script src="/monitor/monitor.js"></script>
+</body>
+</html>
