@@ -1,0 +1,55 @@
+/* Landing (Beranda) — spesifik hero + loader. Token dari /theme.css */
+
+.hidden{display:none !important;}
+
+.k-loader{
+    min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+}
+
+.k-loader-dot{
+    width:34px;height:34px;
+    border-radius:50%;
+    border:2.5px solid var(--border);
+    border-top-color:var(--accent);
+    animation:k-spin .8s linear infinite;
+}
+
+@keyframes k-spin{to{transform:rotate(360deg);}}
+
+.k-page-tight{padding:28px 0;}
+
+/* ---------- hero ---------- */
+
+.k-hero{
+    padding:64px 20px 36px;
+    text-align:left;
+}
+
+.k-hero-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 12px;
+    border-radius:20px;
+    border:1px solid var(--border);
+    background:var(--card);
+    font-size:12px;font-weight:600;color:var(--text-2);
+    margin-bottom:18px;
+}
+
+.k-hero-desc{max-width:560px;margin-top:14px;}
+
+.k-hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;margin-bottom:20px;}
+
+/* ---------- quick access cards ---------- */
+
+.k-quick{
+    display:flex;flex-direction:column;align-items:flex-start;gap:12px;
+    font-weight:700;font-size:13.5px;
+}
+
+.k-quick svg{width:20px;height:20px;color:var(--accent);}
+
+@media (max-width:560px){
+    .k-hero{padding:44px 16px 28px;}
+    .k-hero-cta .k-btn{flex:1;}
+}
