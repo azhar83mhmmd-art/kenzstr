@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Short URL",
+    "endpoint": "/api/tools/shorturl",
+    "filename": "shorturl",
+    "method": "GET",
+    "params": [
+      {
+        "name": "url",
+        "required": true,
+        "description": "Original URL"
+      },
+      {
+        "name": "alias",
+        "required": false,
+        "description": "Custom Alias"
+      }
+    ]
+  },
+  {
+    "name": "NIK Checker",
+    "endpoint": "/api/tools/nikcheck",
+    "filename": "nikcheck",
+    "method": "GET",
+    "params": [
+      {
+        "name": "nik",
+        "required": true,
+        "description": "16-digit Indonesian NIK"
+      }
+    ]
+  },
+  {
+    "name": "Website Screenshot",
+    "endpoint": "/api/tools/screenshot",
+    "filename": "screenshot",
+    "method": "GET",
+    "params": [
+      {
+        "name": "url",
+        "required": true,
+        "description": "URL website yang ingin di-screenshot"
+      }
+    ]
+  },
+  {
+    "name": "Web Fetcher",
+    "endpoint": "/api/tools/webfetch",
+    "filename": "webfetch",
+    "method": "GET",
+    "params": [
+      {
+        "name": "url",
+        "required": true,
+        "description": "URL yang ingin diambil kontennya"
+      }
+    ]
+  },
+  {
+    "name": "Remove Background",
+    "endpoint": "/api/tools/removebg",
+    "filename": "removebg",
+    "method": "GET",
+    "params": [
+      {
+        "name": "url",
+        "required": true,
+        "description": "Link gambar yang ingin dihapus background-nya"
+      }
+    ]
+  }
+]
