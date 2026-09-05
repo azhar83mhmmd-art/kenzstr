@@ -18,10 +18,28 @@ import { CookieJar } from 'tough-cookie';
  * CommonJS), dan modul ESM ini baru dimuat kalau providernya benar-
  * benar dipanggil (fallback provider ke-3), bukan saat cold start.
  */
+/*
+ * PENTING (lanjutan catatan di atas): ternyata `import('@microlink/mql')`
+ * biasa TETAP di-downlevel oleh TypeScript menjadi
+ * `Promise.resolve().then(() => require('@microlink/mql'))` saat target
+ * compile CommonJS/NodeNext — ini bukan dynamic import ESM asli, cuma
+ * require() biasa yang dibungkus Promise, jadi ERR_REQUIRE_ESM tetap
+ * terjadi persis seperti sebelumnya walau kodenya "terlihat" pakai
+ * import(). TypeScript tidak punya opsi resmi untuk mematikan downlevel
+ * ini pada target CJS.
+ *
+ * Fix final: panggil import() lewat `new Function(...)` supaya baris ini
+ * lolos dari TypeScript emitter sama sekali (compiler melihatnya sebagai
+ * string biasa, bukan syntax import), sehingga yang berjalan di runtime
+ * Node adalah dynamic import ESM murni — satu-satunya cara CommonJS
+ * module bisa memuat package ESM-only seperti 'ky'/'@microlink/mql'.
+ */
+const dynamicImport = new Function('specifier', 'return import(specifier)') as (specifier: string) => Promise<any>;
+
 let mqlModulePromise: Promise<any> | null = null;
 function loadMql() {
     if (!mqlModulePromise) {
-        mqlModulePromise = import('@microlink/mql').then((mod: any) => mod.default || mod);
+        mqlModulePromise = dynamicImport('@microlink/mql').then((mod: any) => mod.default || mod);
     }
     return mqlModulePromise;
 }
